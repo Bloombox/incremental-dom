@@ -1,0 +1,50 @@
+/**
+ * Copyright 2018 The Incremental DOM Authors. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS-IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import { truncateArray } from "./util";
+const buffer = [];
+let bufferStart = 0;
+/**
+ * TODO(tomnguyen): This is a bit silly and really needs to be better typed.
+ * @param fn A function to call.
+ * @param a The first argument to the function.
+ * @param b The second argument to the function.
+ * @param c The third argument to the function.
+ */
+function queueChange(fn, a, b, c) {
+    buffer.push(fn);
+    buffer.push(a);
+    buffer.push(b);
+    buffer.push(c);
+}
+/**
+ * Flushes the changes buffer, calling the functions for each change.
+ */
+function flush() {
+    // A change may cause this function to be called re-entrantly. Keep track of
+    // the portion of the buffer we are consuming. Updates the start pointer so
+    // that the next call knows where to start from.
+    const start = bufferStart;
+    const end = buffer.length;
+    bufferStart = end;
+    for (let i = start; i < end; i += 4) {
+        const fn = buffer[i];
+        fn(buffer[i + 1], buffer[i + 2], buffer[i + 3]);
+    }
+    bufferStart = start;
+    truncateArray(buffer, start);
+}
+export { queueChange, flush };
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2hhbmdlcy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL3NyYy9jaGFuZ2VzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7Ozs7Ozs7OztHQWNHO0FBRUgsT0FBTyxFQUFFLGFBQWEsRUFBRSxNQUFNLFFBQVEsQ0FBQztBQUV2QyxNQUFNLE1BQU0sR0FBZSxFQUFFLENBQUM7QUFFOUIsSUFBSSxXQUFXLEdBQUcsQ0FBQyxDQUFDO0FBRXBCOzs7Ozs7R0FNRztBQUNILFNBQVMsV0FBVyxDQUNsQixFQUE4QixFQUM5QixDQUFJLEVBQ0osQ0FBSSxFQUNKLENBQUk7SUFFSixNQUFNLENBQUMsSUFBSSxDQUFDLEVBQUUsQ0FBQyxDQUFDO0lBQ2hCLE1BQU0sQ0FBQyxJQUFJLENBQUMsQ0FBQyxDQUFDLENBQUM7SUFDZixNQUFNLENBQUMsSUFBSSxDQUFDLENBQUMsQ0FBQyxDQUFDO0lBQ2YsTUFBTSxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUMsQ0FBQztBQUNqQixDQUFDO0FBRUQ7O0dBRUc7QUFDSCxTQUFTLEtBQUs7SUFDWiw0RUFBNEU7SUFDNUUsMkVBQTJFO0lBQzNFLGdEQUFnRDtJQUNoRCxNQUFNLEtBQUssR0FBRyxXQUFXLENBQUM7SUFDMUIsTUFBTSxHQUFHLEdBQUcsTUFBTSxDQUFDLE1BQU0sQ0FBQztJQUUxQixXQUFXLEdBQUcsR0FBRyxDQUFDO0lBRWxCLEtBQUssSUFBSSxDQUFDLEdBQUcsS0FBSyxFQUFFLENBQUMsR0FBRyxHQUFHLEVBQUUsQ0FBQyxJQUFJLENBQUMsRUFBRTtRQUNuQyxNQUFNLEVBQUUsR0FBRyxNQUFNLENBQUMsQ0FBQyxDQUEwQyxDQUFDO1FBQzlELEVBQUUsQ0FBQyxNQUFNLENBQUMsQ0FBQyxHQUFHLENBQUMsQ0FBQyxFQUFFLE1BQU0sQ0FBQyxDQUFDLEdBQUcsQ0FBQyxDQUFDLEVBQUUsTUFBTSxDQUFDLENBQUMsR0FBRyxDQUFDLENBQUMsQ0FBQyxDQUFDO0tBQ2pEO0lBRUQsV0FBVyxHQUFHLEtBQUssQ0FBQztJQUNwQixhQUFhLENBQUMsTUFBTSxFQUFFLEtBQUssQ0FBQyxDQUFDO0FBQy9CLENBQUM7QUFFRCxPQUFPLEVBQUUsV0FBVyxFQUFFLEtBQUssRUFBRSxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBDb3B5cmlnaHQgMjAxOCBUaGUgSW5jcmVtZW50YWwgRE9NIEF1dGhvcnMuIEFsbCBSaWdodHMgUmVzZXJ2ZWQuXG4gKlxuICogTGljZW5zZWQgdW5kZXIgdGhlIEFwYWNoZSBMaWNlbnNlLCBWZXJzaW9uIDIuMCAodGhlIFwiTGljZW5zZVwiKTtcbiAqIHlvdSBtYXkgbm90IHVzZSB0aGlzIGZpbGUgZXhjZXB0IGluIGNvbXBsaWFuY2Ugd2l0aCB0aGUgTGljZW5zZS5cbiAqIFlvdSBtYXkgb2J0YWluIGEgY29weSBvZiB0aGUgTGljZW5zZSBhdFxuICpcbiAqICAgICAgaHR0cDovL3d3dy5hcGFjaGUub3JnL2xpY2Vuc2VzL0xJQ0VOU0UtMi4wXG4gKlxuICogVW5sZXNzIHJlcXVpcmVkIGJ5IGFwcGxpY2FibGUgbGF3IG9yIGFncmVlZCB0byBpbiB3cml0aW5nLCBzb2Z0d2FyZVxuICogZGlzdHJpYnV0ZWQgdW5kZXIgdGhlIExpY2Vuc2UgaXMgZGlzdHJpYnV0ZWQgb24gYW4gXCJBUy1JU1wiIEJBU0lTLFxuICogV0lUSE9VVCBXQVJSQU5USUVTIE9SIENPTkRJVElPTlMgT0YgQU5ZIEtJTkQsIGVpdGhlciBleHByZXNzIG9yIGltcGxpZWQuXG4gKiBTZWUgdGhlIExpY2Vuc2UgZm9yIHRoZSBzcGVjaWZpYyBsYW5ndWFnZSBnb3Zlcm5pbmcgcGVybWlzc2lvbnMgYW5kXG4gKiBsaW1pdGF0aW9ucyB1bmRlciB0aGUgTGljZW5zZS5cbiAqL1xuXG5pbXBvcnQgeyB0cnVuY2F0ZUFycmF5IH0gZnJvbSBcIi4vdXRpbFwiO1xuXG5jb25zdCBidWZmZXI6IEFycmF5PGFueT4gPSBbXTtcblxubGV0IGJ1ZmZlclN0YXJ0ID0gMDtcblxuLyoqXG4gKiBUT0RPKHRvbW5ndXllbik6IFRoaXMgaXMgYSBiaXQgc2lsbHkgYW5kIHJlYWxseSBuZWVkcyB0byBiZSBiZXR0ZXIgdHlwZWQuXG4gKiBAcGFyYW0gZm4gQSBmdW5jdGlvbiB0byBjYWxsLlxuICogQHBhcmFtIGEgVGhlIGZpcnN0IGFyZ3VtZW50IHRvIHRoZSBmdW5jdGlvbi5cbiAqIEBwYXJhbSBiIFRoZSBzZWNvbmQgYXJndW1lbnQgdG8gdGhlIGZ1bmN0aW9uLlxuICogQHBhcmFtIGMgVGhlIHRoaXJkIGFyZ3VtZW50IHRvIHRoZSBmdW5jdGlvbi5cbiAqL1xuZnVuY3Rpb24gcXVldWVDaGFuZ2U8QSwgQiwgQz4oXG4gIGZuOiAoYTogQSwgYjogQiwgYzogQykgPT4gdm9pZCxcbiAgYTogQSxcbiAgYjogQixcbiAgYzogQ1xuKSB7XG4gIGJ1ZmZlci5wdXNoKGZuKTtcbiAgYnVmZmVyLnB1c2goYSk7XG4gIGJ1ZmZlci5wdXNoKGIpO1xuICBidWZmZXIucHVzaChjKTtcbn1cblxuLyoqXG4gKiBGbHVzaGVzIHRoZSBjaGFuZ2VzIGJ1ZmZlciwgY2FsbGluZyB0aGUgZnVuY3Rpb25zIGZvciBlYWNoIGNoYW5nZS5cbiAqL1xuZnVuY3Rpb24gZmx1c2goKSB7XG4gIC8vIEEgY2hhbmdlIG1heSBjYXVzZSB0aGlzIGZ1bmN0aW9uIHRvIGJlIGNhbGxlZCByZS1lbnRyYW50bHkuIEtlZXAgdHJhY2sgb2ZcbiAgLy8gdGhlIHBvcnRpb24gb2YgdGhlIGJ1ZmZlciB3ZSBhcmUgY29uc3VtaW5nLiBVcGRhdGVzIHRoZSBzdGFydCBwb2ludGVyIHNvXG4gIC8vIHRoYXQgdGhlIG5leHQgY2FsbCBrbm93cyB3aGVyZSB0byBzdGFydCBmcm9tLlxuICBjb25zdCBzdGFydCA9IGJ1ZmZlclN0YXJ0O1xuICBjb25zdCBlbmQgPSBidWZmZXIubGVuZ3RoO1xuXG4gIGJ1ZmZlclN0YXJ0ID0gZW5kO1xuXG4gIGZvciAobGV0IGkgPSBzdGFydDsgaSA8IGVuZDsgaSArPSA0KSB7XG4gICAgY29uc3QgZm4gPSBidWZmZXJbaV0gYXMgKGE6IGFueSwgYjogYW55LCBjOiBhbnkpID0+IHVuZGVmaW5lZDtcbiAgICBmbihidWZmZXJbaSArIDFdLCBidWZmZXJbaSArIDJdLCBidWZmZXJbaSArIDNdKTtcbiAgfVxuXG4gIGJ1ZmZlclN0YXJ0ID0gc3RhcnQ7XG4gIHRydW5jYXRlQXJyYXkoYnVmZmVyLCBzdGFydCk7XG59XG5cbmV4cG9ydCB7IHF1ZXVlQ2hhbmdlLCBmbHVzaCB9O1xuIl19

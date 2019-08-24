@@ -1,0 +1,31 @@
+/**
+ * Copyright 2018 The Incremental DOM Authors. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS-IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * The name of the HTML attribute that holds the element key
+ * (e.g. `<div key="foo">`). The attribute value, if it exists, is then used
+ * as the default key when importing an element.
+ * If null, no attribute value is used as the default key.
+ */
+let keyAttributeName = "key";
+function getKeyAttributeName() {
+    return keyAttributeName;
+}
+function setKeyAttributeName(name) {
+    keyAttributeName = name;
+}
+export { DEBUG } from "./debug";
+export { getKeyAttributeName, setKeyAttributeName };
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZ2xvYmFsLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vc3JjL2dsb2JhbC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7Ozs7Ozs7Ozs7R0FjRztBQUVIOzs7OztHQUtHO0FBQ0gsSUFBSSxnQkFBZ0IsR0FBa0IsS0FBSyxDQUFDO0FBRTVDLFNBQVMsbUJBQW1CO0lBQzFCLE9BQU8sZ0JBQWdCLENBQUM7QUFDMUIsQ0FBQztBQUVELFNBQVMsbUJBQW1CLENBQUMsSUFBbUI7SUFDOUMsZ0JBQWdCLEdBQUcsSUFBSSxDQUFDO0FBQzFCLENBQUM7QUFFRCxPQUFPLEVBQUUsS0FBSyxFQUFFLE1BQU0sU0FBUyxDQUFDO0FBQ2hDLE9BQU8sRUFBRSxtQkFBbUIsRUFBRSxtQkFBbUIsRUFBRSxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBDb3B5cmlnaHQgMjAxOCBUaGUgSW5jcmVtZW50YWwgRE9NIEF1dGhvcnMuIEFsbCBSaWdodHMgUmVzZXJ2ZWQuXG4gKlxuICogTGljZW5zZWQgdW5kZXIgdGhlIEFwYWNoZSBMaWNlbnNlLCBWZXJzaW9uIDIuMCAodGhlIFwiTGljZW5zZVwiKTtcbiAqIHlvdSBtYXkgbm90IHVzZSB0aGlzIGZpbGUgZXhjZXB0IGluIGNvbXBsaWFuY2Ugd2l0aCB0aGUgTGljZW5zZS5cbiAqIFlvdSBtYXkgb2J0YWluIGEgY29weSBvZiB0aGUgTGljZW5zZSBhdFxuICpcbiAqICAgICAgaHR0cDovL3d3dy5hcGFjaGUub3JnL2xpY2Vuc2VzL0xJQ0VOU0UtMi4wXG4gKlxuICogVW5sZXNzIHJlcXVpcmVkIGJ5IGFwcGxpY2FibGUgbGF3IG9yIGFncmVlZCB0byBpbiB3cml0aW5nLCBzb2Z0d2FyZVxuICogZGlzdHJpYnV0ZWQgdW5kZXIgdGhlIExpY2Vuc2UgaXMgZGlzdHJpYnV0ZWQgb24gYW4gXCJBUy1JU1wiIEJBU0lTLFxuICogV0lUSE9VVCBXQVJSQU5USUVTIE9SIENPTkRJVElPTlMgT0YgQU5ZIEtJTkQsIGVpdGhlciBleHByZXNzIG9yIGltcGxpZWQuXG4gKiBTZWUgdGhlIExpY2Vuc2UgZm9yIHRoZSBzcGVjaWZpYyBsYW5ndWFnZSBnb3Zlcm5pbmcgcGVybWlzc2lvbnMgYW5kXG4gKiBsaW1pdGF0aW9ucyB1bmRlciB0aGUgTGljZW5zZS5cbiAqL1xuXG4vKipcbiAqIFRoZSBuYW1lIG9mIHRoZSBIVE1MIGF0dHJpYnV0ZSB0aGF0IGhvbGRzIHRoZSBlbGVtZW50IGtleVxuICogKGUuZy4gYDxkaXYga2V5PVwiZm9vXCI+YCkuIFRoZSBhdHRyaWJ1dGUgdmFsdWUsIGlmIGl0IGV4aXN0cywgaXMgdGhlbiB1c2VkXG4gKiBhcyB0aGUgZGVmYXVsdCBrZXkgd2hlbiBpbXBvcnRpbmcgYW4gZWxlbWVudC5cbiAqIElmIG51bGwsIG5vIGF0dHJpYnV0ZSB2YWx1ZSBpcyB1c2VkIGFzIHRoZSBkZWZhdWx0IGtleS5cbiAqL1xubGV0IGtleUF0dHJpYnV0ZU5hbWU6IHN0cmluZyB8IG51bGwgPSBcImtleVwiO1xuXG5mdW5jdGlvbiBnZXRLZXlBdHRyaWJ1dGVOYW1lKCkge1xuICByZXR1cm4ga2V5QXR0cmlidXRlTmFtZTtcbn1cblxuZnVuY3Rpb24gc2V0S2V5QXR0cmlidXRlTmFtZShuYW1lOiBzdHJpbmcgfCBudWxsKSB7XG4gIGtleUF0dHJpYnV0ZU5hbWUgPSBuYW1lO1xufVxuXG5leHBvcnQgeyBERUJVRyB9IGZyb20gXCIuL2RlYnVnXCI7XG5leHBvcnQgeyBnZXRLZXlBdHRyaWJ1dGVOYW1lLCBzZXRLZXlBdHRyaWJ1dGVOYW1lIH07XG4iXX0=
